@@ -18,8 +18,7 @@ protected $schema;
 
 function __construct() {
 	// $this->schema = Spyc::YAMLLoad(dirname(__FILE__) . '/schema.yaml');
-	require 'schema.php';
-	$this->schema = $schema;
+	$this->schema = require 'schema.php';
 }
 
 public function UiContentFilterGenerate() {

@@ -1,4 +1,4 @@
-<?php $schema = array (
+<?php return array (
   'title' => 
   array (
     'type' => 'string',
