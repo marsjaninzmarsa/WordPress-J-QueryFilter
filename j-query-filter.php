@@ -284,16 +284,16 @@ add_action( 'wp_ajax_sidebar_query_filter', 'j_query_filter' );
 function enqueue_and_register_j_query_filter(){
 
 	/* jQuery Deserialize Script */
-	wp_register_script('jquery-deserialize', plugins_url('jquery.deserialize.js', __FILE__), array('jquery'));
+	wp_register_script('jquery-deserialize', plugins_url('js/jquery.deserialize.js', __FILE__), array('jquery'));
 	wp_enqueue_script('jquery-deserialize');
 
 	/* PURL */
-	wp_register_script('purl', plugins_url('purl.js', __FILE__));
+	wp_register_script('purl', plugins_url('js/purl.js', __FILE__));
 	wp_enqueue_script('purl');
 	/* jQuery Color */
 	wp_enqueue_script('jquery-color');
 	/* jQueryFilter */
-	wp_register_script( 'j-query-filter', plugins_url('j-query-filter.js', __FILE__), array('jquery-ui-slider', 'jquery-form', 'jquery-deserialize', 'jquery-color', 'purl') );
+	wp_register_script( 'j-query-filter', plugins_url('js/j-query-filter.js', __FILE__), array('jquery-ui-slider', 'jquery-form', 'jquery-deserialize', 'jquery-color', 'purl') );
 	global $sidebarQueryFilter;
 	wp_localize_script( 'j-query-filter', 'sidebar_query_filter', $sidebarQueryFilter->UiContentFilterGenerate() );
 	wp_localize_script( 'j-query-filter', 'sidebar_query_filter_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'search_url' => get_permalink() ) );
