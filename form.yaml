@@ -1,0 +1,115 @@
+---
+- 
+    title: Kategorie
+    type: list
+    source: tax
+    tax: bm_offer_category
+-    
+    title: Region
+    type: list
+    source: tax
+    tax: bm_offer_region
+- 
+    title: Wymiar zatrudnienia
+    type: list
+    source: meta
+    options:
+    	-
+            taxonomy: ui_employment_dimension
+            slug: Pełny etat
+            name: Pełny etat
+    	-
+            taxonomy: ui_employment_dimension
+    		slug: Pół etatu
+    		name: Pół etatu
+    	-
+            taxonomy: ui_employment_dimension
+    		slug: Tymczasowe
+    		name: Tymczasowe
+    	-
+            taxonomy: ui_employment_dimension
+    		slug: Freelance
+    		name: Freelance
+    	-
+            taxonomy: ui_employment_dimension
+    		slug: Praktyka
+    		name: Praktyka
+    	-
+            taxonomy: ui_employment_dimension
+    		slug: Staż
+    		name: Staż
+    key: ui_employment_dimension
+- 
+    title: Forma zatrudnienia
+    type: list
+    source: tax
+    tax: bm_offer_employment_form
+- 
+    title: Wykształcenie
+    type: list
+    source: meta
+    options:
+    	-
+            taxonomy: ui_required_title
+    		slug: Bez wykształcenia
+    		name: Bez wykształcenia
+    	-
+            taxonomy: ui_required_title
+    		slug: Podstawowe
+    		name: Podstawowe
+    	-
+            taxonomy: ui_required_title
+    		slug: Zasadnicze zawodowe
+    		name: Zasadnicze zawodowe
+    	-
+            taxonomy: ui_required_title
+    		slug: Średnie zawodowe
+    		name: Średnie zawodowe
+    	-
+            taxonomy: ui_required_title
+    		slug: Średnie ogólnokształcące
+    		name: Średnie ogólnokształcące
+    	-
+            taxonomy: ui_required_title
+    		slug: Policealne
+    		name: Policealne
+    	-
+            taxonomy: ui_required_title
+    		slug: Wyższe licencjacie/inżynierskie
+    		name: Wyższe licencjackie/inżynierskie
+    	-
+            taxonomy: ui_required_title
+    		slug: Wyższe magisterskie
+    		name: Wyższe magisterskie
+    	-
+            taxonomy: ui_required_title
+    		slug: Studia podyplomowe/doktoranckie
+    		name: Studia podyplomowe/doktoranckie
+    key: ui_required_title
+- 
+    title: Doświadczenie
+    type: list
+    source: meta
+    options:
+    	-
+            taxonomy: ui_required_time_work
+    		slug: 0-1 rok
+    		name: 0-1 rok
+    	-
+            taxonomy: ui_required_time_work
+    		slug: 2-3 lata
+    		name: 2-3 lata
+    	-
+            taxonomy: ui_required_time_work
+    		slug: 3-5 lat
+    		name: 3-5 lat
+    	-
+            taxonomy: ui_required_time_work
+    		slug: 5-10 lat
+    		name: 5-10 lat
+    	-
+            taxonomy: ui_required_time_work
+    		slug: > 10
+    		name: > 10 lat
+    key: ui_required_time_work
+- 

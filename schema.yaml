@@ -1,0 +1,33 @@
+---
+title:
+    type: string
+type:
+    type: string
+    allowed:
+        list:
+            tax_query:
+                operator: IN
+        range:
+            meta_query:
+                compare: BETWEEN
+        color_list:
+            extends: list
+options:
+    type: arrays
+name:
+    type: string
+min:
+    type: int
+max:
+    type: int
+step:
+    type: int
+min_name:
+    type: string
+max_name:
+    type: string
+orientation:
+    type: string
+    allowed:
+        - horizontal
+        - vertical
