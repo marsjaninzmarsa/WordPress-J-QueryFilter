@@ -22,6 +22,13 @@
           'compare' => 'BETWEEN',
         ),
       ),
+      'text' => 
+      array (
+        'meta_query' => 
+        array (
+          'compare' => 'LIKE',
+        ),
+      ),
       'color_list' => 
       array (
         'extends' => 'list',

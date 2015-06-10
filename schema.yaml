@@ -10,6 +10,9 @@ type:
         range:
             meta_query:
                 compare: BETWEEN
+        text:
+            meta_query:
+                compare: LIKE
         color_list:
             extends: list
 options:

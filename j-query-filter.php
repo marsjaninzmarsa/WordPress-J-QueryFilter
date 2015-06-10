@@ -211,13 +211,24 @@ public function QueryFilter($data, $args) {
 							}
 						}
 						break;
-					
-					default:
-						$dupa = $this->QueryParricide($data, $imput, $form);
-						if(!is_null($dupa))
+
+					case 'text':
+						$parrice = $this->QueryParricide($data, $imput, $form);
+						if(!is_null($parrice))
 							$args['meta_query'][] = array(
 								'key'     => $imput['key'],
-								'value'   => $dupa,
+								'value'   => $parrice,
+								'compare' => 'LIKE',
+								'type'    => 'string',
+							);
+						break;
+
+					default:
+						$parrice = $this->QueryParricide($data, $imput, $form);
+						if(!is_null($parrice))
+							$args['meta_query'][] = array(
+								'key'     => $imput['key'],
+								'value'   => $parrice,
 								'compare' => 'IN',
 								// 'type'    => 'string',
 							);
