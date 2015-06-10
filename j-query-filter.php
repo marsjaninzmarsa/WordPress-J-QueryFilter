@@ -45,6 +45,9 @@ public function UiContentFilterGenerate() {
 				$form[$key]['options'][$subkey]['name'] = __($option['name'], 'twentythirteen');
 			}
 		}
+		if(!is_array($form[$key]['options'])) {
+			unset($form[$key]);
+		}
 	}
 	$form = $this->RefillForm($form);
 	$form = $this->ReindentOptions($form);
