@@ -9,16 +9,27 @@ Version: 0.0.1
 License: GPL v3
 */
 
-require_once "spyc/spyc.php";
+if(!extension_loaded('yaml')) {
+	require_once "spyc/spyc.php";
+}
 
 class UiJQueryFilter {
 
 public $form = array();
-protected $schema;
+protected static $schema;
 
 function __construct() {
-	// $this->schema = Spyc::YAMLLoad(dirname(__FILE__) . '/schema.yaml');
-	$this->schema = require 'schema.php';
+	if(!static::$schema) {
+		static::$schema = include 'schema.php';
+	}
+}
+
+public static function LoadYaml($file) {
+	if(extension_loaded('yaml')) {
+		return yaml_parse_file($file);
+	} else {
+		return Spyc::YAMLLoad($file);
+	}
 }
 
 public function UiContentFilterGenerate() {
@@ -274,7 +285,7 @@ public function QueryFilter($data, $args) {
 
 $sidebarQueryFilter = new UiJQueryFilter;
 
-$sidebarQueryFilter->form = Spyc::YAMLLoad(dirname(__FILE__) . '/form.yaml');
+$sidebarQueryFilter->form = UiJQueryFilter::LoadYaml(dirname(__FILE__) . '/form.yaml');
 
 add_action( 'wp_enqueue_scripts', 'enqueue_and_register_j_query_filter' );
 add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );
