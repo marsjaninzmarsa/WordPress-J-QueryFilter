@@ -17,11 +17,13 @@ class UiJQueryFilter {
 
 public $form = array();
 protected static $schema;
+protected static $_instances = array();
 
 function __construct() {
 	if(!static::$schema) {
 		static::$schema = include 'schema.php';
 	}
+	static::$_instances[] = $this;
 }
 
 public static function LoadYaml($file) {
@@ -295,6 +297,8 @@ public function QueryFilter($data, $args) {
 	return $args;
 }
 
+
+
 }
 
 class JQueryFilterWidget extends WP_Widget {
@@ -306,49 +310,50 @@ function __construct() {
 	);
 }
 
-var $form = array (
-		array (
-			'id' => 'title',
-			'description' => 'Title',
-			'default' => 'Filter results',
-			'type' => 'text'
+protected $form = array (
+	array (
+		'id' => 'title',
+		'description' => 'Title',
+		'default' => 'Filter results',
+		'type' => 'text'
+	),
+	array (
+		'id' => 'results_page',
+		'description' => 'Results page',
+		'default' => null,
+		'type' => 'pages'
+	),
+	array (
+		'id' => 'items_page',
+		'description' => 'All items page (when no filters are selected)',
+		'default' => -1,
+		'type' => 'pages',
+		'params' => array(
+			'show_option_no_change' => 'Same as results page',
 		),
-		array (
-			'id' => 'results_page',
-			'description' => 'Results page',
-			'default' => null,
-			'type' => 'pages'
-		),
-		array (
-			'id' => 'items_page',
-			'description' => 'All items page (when no filters are selected)',
-			'default' => -1,
-			'type' => 'pages',
-			'params' => array(
-				'show_option_no_change' => 'Same as results page',
+	),
+	array (
+		'id' => 'filters',
+		'description' => 'Filtering parameters',
+		'default' => array(
+			array(
+				'title' => 'Categories',
+				'type'  => 'list',
+				'source'=> 'tax',
+				'tax'   => 'category',
+			),
+			array(
+				'title' => 'Tags',
+				'type'  => 'list',
+				'source'=> 'tax',
+				'tax'   => 'post_tag',
 			),
 		),
-		array (
-			'id' => 'filters',
-			'description' => 'Width of pins (set 0 for auto)',
-			'default' => array(
-				array(
-					'title' => 'Categories',
-					'type'  => 'list',
-					'source'=> 'tax',
-					'tax'   => 'category',
-				),
-				array(
-					'title' => 'Tags',
-					'type'  => 'list',
-					'source'=> 'tax',
-					'tax'   => 'post_tag',
-				),
-			),
-			'type' => 'textarea',
-			'parser' => 'yaml',
-		),
-	);
+		'type' => 'textarea',
+		'parser' => 'yaml',
+	),
+);
+
 
 /**
  * Front-end display of widget.
@@ -359,11 +364,12 @@ var $form = array (
  * @param array $instance Saved values from database.
  */
 public function widget( $args, $instance ) {
-	$title = apply_filters( 'widget_title', $instance['title'] );
+	echo $args['before_widget'];
+	if ( ! empty( $instance['title'] ) ) {
+		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
+	}
 
-	/////////////////
-	// DISPLAY!!!! //
-	/////////////////
+	var_dump([$args, $instance]);
 
 	echo $args['after_widget'];
 }
@@ -409,7 +415,7 @@ public function form( $instance ) {
 				echo '</div>';
 			break;
 			case 'textarea':
-				printf('<textarea class="%s" id="%s" name="%s">%s</textarea></p>', $class, $this->get_field_id($input['id']), $this->get_field_name($input['id']), $value);
+				printf('<textarea class="%s" id="%s" name="%s" rows=20>%s</textarea></p>', $class, $this->get_field_id($input['id']), $this->get_field_name($input['id']), $value);
 			break;
 			case 'custom':
 				if(isset($input['callback']) && is_callable($input['callback']))
@@ -452,13 +458,20 @@ public function update( $new_instance, $old_instance ) {
 // Registering Widget
 add_action('widgets_init', create_function('', 'return register_widget("JQueryFilterWidget");'));
 
-$sidebarQueryFilter = new UiJQueryFilter;
+add_action('wp_register_sidebar_widget', function($widget) {
+	if($widget['classname'] == 'widget_j_query_filter_widget') {
+		$number   = $widget['params'][0]['number'];
+		$settings = $widget['callback'][0]->get_settings()[$number];
+		new UiJQueryFilter($settings);
+	}
+});
 
-$sidebarQueryFilter->form = UiJQueryFilter::LoadYaml(dirname(__FILE__) . '/form.yaml');
 
-add_action( 'wp_enqueue_scripts', 'enqueue_and_register_j_query_filter' );
-add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );
-add_action( 'wp_ajax_sidebar_query_filter', 'j_query_filter' );
+// $sidebarQueryFilter->form = UiJQueryFilter::LoadYaml(dirname(__FILE__) . '/form.yaml');
+
+// add_action( 'wp_enqueue_scripts', 'enqueue_and_register_j_query_filter' );
+// add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );
+// add_action( 'wp_ajax_sidebar_query_filter', 'j_query_filter' );
 
 function enqueue_and_register_j_query_filter(){
 
