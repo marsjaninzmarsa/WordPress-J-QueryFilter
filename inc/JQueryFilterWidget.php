@@ -17,20 +17,29 @@ protected $form = array (
 		'type' => 'text'
 	),
 	array (
-		'id' => 'results_page',
-		'description' => 'Results page',
-		'default' => null,
-		'type' => 'pages'
-	),
-	array (
-		'id' => 'items_page',
-		'description' => 'All items page (when no filters are selected)',
-		'default' => -1,
-		'type' => 'pages',
-		'params' => array(
-			'show_option_no_change' => 'Same as results page',
+		'id' => 'post_type',
+		'description' => 'Post Type',
+		'default' => 'post',
+		'type' => 'select',
+		'params_callback' => array(
+			'static::getPostTypes',
 		),
 	),
+	// array (
+	// 	'id' => 'results_page',
+	// 	'description' => 'Results page',
+	// 	'default' => null,
+	// 	'type' => 'pages'
+	// ),
+	// array (
+	// 	'id' => 'items_page',
+	// 	'description' => 'All items page (when no filters are selected)',
+	// 	'default' => -1,
+	// 	'type' => 'pages',
+	// 	'params' => array(
+	// 		'show_option_no_change' => 'Same as results page',
+	// 	),
+	// ),
 	array (
 		'id' => 'filters',
 		'description' => 'Filtering parameters',
@@ -68,7 +77,9 @@ public function widget( $args, $instance ) {
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
 	}
 
-	var_dump([$args, $instance]);
+	// var_dump([$args, $instance]);
+
+	// echo '<div class=".filters-list"><form id="filters-form"><ul class="filters-list"></ul></form></div>';
 
 	echo $args['after_widget'];
 }
@@ -100,7 +111,15 @@ public function form( $instance ) {
 				break;
 			}
 		}
-		$params = (isset($input['params'])) ? $input['params'] : array();
+		$params = (isset($input['params'])) ?
+			$input['params'] :
+			(isset($input['params_callback']) && is_callable($input['params_callback'][0])) ?
+				call_user_func_array($input['params_callback'][0],
+					(isset($input['params_callback'][1]) && is_array($input['params_callback'][1])) ?
+						$input['params_callback'][1] :
+						array()
+				):
+				array();
 
 		printf('<p><label for="%s">%s:</label>', $this->get_field_id($input['id']), $input['description']);
 		switch ($input['type']) {
@@ -112,6 +131,13 @@ public function form( $instance ) {
 					'id'       => $this->get_field_id($input['id']),
 				), $params));
 				echo '</div>';
+			break;
+			case 'select':
+				printf('<select class="%s" id="%s" name="%s">', $class, $this->get_field_id($input['id']), $this->get_field_name($input['id']));
+					foreach ($params as $slug => $name) {
+						printf('<option value="%s" %s>%s</option>', $slug, selected($value, $slug, false), $name);
+					}
+				print ('</select>');
 			break;
 			case 'textarea':
 				printf('<textarea class="%s" id="%s" name="%s" rows=20>%s</textarea></p>', $class, $this->get_field_id($input['id']), $this->get_field_name($input['id']), $value);
@@ -150,5 +176,28 @@ public function update( $new_instance, $old_instance ) {
 
 	return $instance;
 }
+
+public static function getPostTypes() {
+	$post_types = get_post_types(array(
+		'public' => true,
+		'publicly_queryable' => true,
+	), 'objects');
+	$return = array();
+	foreach ($post_types as $slug => $pt) {
+		foreach (array(
+			'public',
+			'publicly_queryable',
+			// 'has_archive'
+		) as $value) {
+			if(!$pt->$value) {
+				continue 2;
+			}
+		}
+		$return[$slug] = $pt->labels->name;
+	}
+	// var_dump($post_types);
+	// var_dump($return);
+	return $return;
+} 
 
 } // class Foo_Widget

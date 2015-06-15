@@ -29,16 +29,16 @@ add_action('wp_register_sidebar_widget', function($widget) {
 	if($widget['classname'] == 'widget_j_query_filter_widget') {
 		$number   = $widget['params'][0]['number'];
 		$settings = $widget['callback'][0]->get_settings()[$number];
-		new UiJQueryFilter($settings);
+		$sidebarQueryFilter = new UiJQueryFilter($settings);
 	}
 });
 
 
 // $sidebarQueryFilter->form = UiJQueryFilter::LoadYaml(dirname(__FILE__) . '/form.yaml');
 
-// add_action( 'wp_enqueue_scripts', 'enqueue_and_register_j_query_filter' );
-// add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );
-// add_action( 'wp_ajax_sidebar_query_filter', 'j_query_filter' );
+add_action( 'wp_enqueue_scripts', 'enqueue_and_register_j_query_filter' );
+add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );
+add_action( 'wp_ajax_sidebar_query_filter', 'j_query_filter' );
 
 function enqueue_and_register_j_query_filter(){
 
@@ -54,9 +54,9 @@ function enqueue_and_register_j_query_filter(){
 	/* jQueryFilter */
 	wp_register_script( 'j-query-filter', plugins_url('js/j-query-filter.js', __FILE__), array('jquery-ui-slider', 'jquery-form', 'jquery-deserialize', 'jquery-color', 'purl') );
 	global $sidebarQueryFilter;
-	wp_localize_script( 'j-query-filter', 'sidebar_query_filter', $sidebarQueryFilter->UiContentFilterGenerate() );
-	wp_localize_script( 'j-query-filter', 'sidebar_query_filter_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'search_url' => get_permalink() ) );
-	wp_enqueue_script( 'j-query-filter' );
+	// wp_localize_script( 'j-query-filter', 'sidebar_query_filter', $sidebarQueryFilter->UiContentFilterGenerate() );
+	// wp_localize_script( 'j-query-filter', 'sidebar_query_filter_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'search_url' => get_permalink() ) );
+	// wp_enqueue_script( 'j-query-filter' );
 }
 
 function wyszukiwarka_ofert($data) {
@@ -99,3 +99,20 @@ function j_query_filter($args = false) {
 	// get_template_part('content', 'obrazy');
 	if (defined('DOING_AJAX') && DOING_AJAX) exit;
 }
+
+add_action('parse_query', function($query) {
+	if($query->is_main_query() && $query->is_post_type_archive() && in_array($pt = $query->query_vars['post_type'], UiJQueryFilter::GetFilteredPT())) {
+		$query_vars = $query->query;
+		$sidebarQueryFilter = UiJQueryFilter::GetFilterForPT($pt);
+		$args = array(
+			'post_type' => $pt,
+			// 'posts_per_page' => 16,
+			// 'offset' => (isset($_REQUEST['offset']) && $_REQUEST['offset']) ? $_REQUEST['offset'] : 0,
+			'suppress_filters' => true,
+			// 'post_status' => (in_array('administrator', wp_get_current_user()->roles)) ? 'any' : 'publish',
+		);
+		$query->query_vars = $sidebarQueryFilter->QueryFilter($_GET, $args);
+		// var_dump($query);
+	}
+	return;
+});

@@ -3,13 +3,21 @@
 class UiJQueryFilter {
 
 public $form = array();
+public $post_type;
 protected static $schema;
 protected static $_instances = array();
 
-function __construct() {
+function __construct($settings) {
 	if(!static::$schema) {
 		static::$schema = include 'schema.php';
 	}
+	$settings = array_merge(array(
+		'post_type' => '',
+		'filters'   => array()
+	), $settings);
+	$this->post_type = $settings['post_type'];
+	$this->form      = $settings['filters'];
+	// var_dump($settings); die;
 	static::$_instances[] = $this;
 }
 
@@ -33,6 +41,23 @@ public static function EncodeYaml($array) {
 	} else {
 		return Spyc::YAMLDump($array);
 	}
+}
+
+public static function GetFilteredPT() {
+	$pt = array();
+	foreach (static::$_instances as $instance) {
+		$pt[] = $instance->post_type;
+	}
+	return $pt;
+}
+
+public static function GetFilterForPT($pt) {
+	foreach (static::$_instances as $key => $instance) {
+		if($instance->post_type == $pt) {
+			return $instance;
+		}
+	}
+	return null;
 }
 
 public function UiContentFilterGenerate() {
@@ -143,7 +168,7 @@ private function QueryParricide($data, $input, $form) {
 	// var_dump($data[$input['name']]);
 	foreach ($data[$input['name']] as $key => $filter) {
 		foreach ($input['options'] as $subkey => $option) {
-			if($filter == $option['slug']) {
+			if($filter == $option['slug'] && isset($option['children']) && is_array($option['children'])) {
 				// echo "key: $key, subkey: $subkey \n";
 				foreach ($option['children'] as $row => $children) {
 					// var_dump($filter);
@@ -162,6 +187,14 @@ private function QueryParricide($data, $input, $form) {
 }
 
 public function QueryFilter($data, $args) {
+	$args = array_merge(array(
+		'tax_query'  => array(),
+		'meta_query' => array(),
+	), $args);
+	$data = array_merge(array(
+		'sort'   => null,
+		'sortby' => null,
+	), $data);
 	$form = $this->form;
 	foreach ($form as $key => $imput) {
 		if ($imput['source'] == 'tax' && isset($imput['tax'])) {
