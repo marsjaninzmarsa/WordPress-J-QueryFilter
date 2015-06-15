@@ -14,7 +14,9 @@ if(!extension_loaded('yaml') && !class_exists('Spyc')) {
 }
 
 spl_autoload_register(function($class) {
-	include_once "inc/$class.php";
+	if(is_file($file = dirname(__FILE__) . "/inc/$class.php")) {
+		include_once $file;
+	}
 });
 
 
