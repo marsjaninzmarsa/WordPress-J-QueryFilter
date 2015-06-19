@@ -76,12 +76,109 @@ public function widget( $args, $instance ) {
 	if ( ! empty( $instance['title'] ) ) {
 		echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
 	}
-
+	$pt = $instance['post_type'];
+	$filterObject = UiJQueryFilter::GetFilterForPT($pt);
 	// var_dump([$args, $instance]);
+	$form = $filterObject->UiContentFilterGenerate();
 
-	// echo '<div class=".filters-list"><form id="filters-form"><ul class="filters-list"></ul></form></div>';
+	foreach ($form as $filter) {
+		if(!isset($filter['classes']) || !is_array($filter['classes'])) {
+			$filter['classes'] = array();
+		}
+		printf('<li id="filter-%s-%s" class="">', $pt, $filter['name'], implode($filter['classes']));
+		printf('<span class="toggler" data-can-collapse="%s">', $filter['collapse']);
+		printf('<span class="title">%s</span></span>', $filter['title']);
+		switch ($filter['type']) {
+			case 'list':
+			case 'color-list':
+				printf('<ul class="details details-cols orientation-%s %-type">', $filter['orientation'], $filter['type']);
+				static::list_filter($filter, $pt);
+				print ('</ul>');
+			break;
+			case 'range':
+				print ('<div class="details details-cols>');
+				static::range_filter($filter, $pt);
+				print ('</div>');
+			break;
+			
+			default:
+				# code...
+			break;
+		}
+		print ('</li>');
+	}
+
+	printf('<div class="filters"><form action="%s" method="get"><ul class="filters-list">', get_post_type_archive_link($pt));
+
+	print ('</ul></form></div>');
 
 	echo $args['after_widget'];
+}
+
+protected static function list_filter($filter, $pt) {
+	foreach ($filter['options'] as $option) {
+		print ('<li>');
+		printf('<input id="filtr-%s-%s-%s" class="inc" type="checkbox" value="%s" name="%s[]" />',
+			$pt,
+			$option['taxonomy'],
+			$option['slug'],
+			$option['slug'],
+			$option['taxonomy']
+		);
+		switch ($option['type']) {
+			case 'list':
+				printf('<label for="filtr-%s-%s-%s">%s</label>',
+					$pt,
+					$option['taxonomy'],
+					$option['slug'],
+					$option['name']
+				);
+				if(isset($option['children']) && is_array($option['children'])) {
+					print ('<ul>');
+					foreach ($option['children'] as $suboption) {
+						static::list_filter($option, $pt);
+					}
+					print ('</ul>');
+				}
+			break;
+			case 'color-list':
+				printf('<label for="filtr-%s-%s-%s" data-color="%s" title="%s">%s</label>',
+					$pt,
+					$option['taxonomy'],
+					$option['slug'],
+					$option['description'],
+					$option['name'],
+					$option['name']
+				);
+			break;
+		}
+		print ('</li>');
+	}
+}
+
+protected static function range_filrer($filter, $pt) {
+	print ('<div class="slider">');
+	printf('<input id="%s-%s" class="inc" type="hidden" value="%s" min="%s" max="%s" name="%s" />',
+		$pt,
+		$filter['min_name'],
+		$filter['min'],
+		$filter['min'],
+		$filter['max'],
+		$filter['min_name']
+	);
+	printf('<input id="%s-%s" class="inc" type="hidden" value="%s" min="%s" max="%s" name="%s" />',
+		$pt,
+		$filter['max_name'],
+		$filter['max'],
+		$filter['min'],
+		$filter['max'],
+		$filter['max_name']
+	);
+	printf('<div id="slider-%s-%s-range"></div>', $pt, $filter['name']);
+	print ('<div class="slider-values">');
+	printf('<div id="slider-%s-%s-from-text" class="slider-from-text"></div>', $pt, $filter['name']);
+	printf('<div id="slider-%s-%s-to-text" class="slider-to-text"></div>', $pt, $filter['name']);
+	print ('</div></div></div>');
 }
 
 /**

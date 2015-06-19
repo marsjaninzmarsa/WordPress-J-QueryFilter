@@ -56,7 +56,7 @@ function enqueue_and_register_j_query_filter(){
 	global $sidebarQueryFilter;
 	// wp_localize_script( 'j-query-filter', 'sidebar_query_filter', $sidebarQueryFilter->UiContentFilterGenerate() );
 	// wp_localize_script( 'j-query-filter', 'sidebar_query_filter_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'search_url' => get_permalink() ) );
-	// wp_enqueue_script( 'j-query-filter' );
+	wp_enqueue_script( 'j-query-filter' );
 }
 
 function wyszukiwarka_ofert($data) {

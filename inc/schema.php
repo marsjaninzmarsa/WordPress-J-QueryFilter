@@ -72,4 +72,12 @@
       1 => 'vertical',
     ),
   ),
+  'collapse' => 
+  array (
+    'type' => 'bool',
+  ),
+  'classes' => 
+  array (
+    'type' => 'array',
+  ),
 ); ?>

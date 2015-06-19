@@ -34,3 +34,7 @@ orientation:
     allowed:
         - horizontal
         - vertical
+collapse:
+    type: bool
+classes:
+    type: array

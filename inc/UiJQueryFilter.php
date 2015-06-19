@@ -65,7 +65,7 @@ public function UiContentFilterGenerate() {
 	foreach ($form as $key => $imput) {
 		if(!is_array($imput))
 			break;
-		$form[$key]['title'] = __($imput['title'], 'twentythirteen');
+		$form[$key]['title'] = $imput['title'];
 		if ($imput['source'] == 'tax' && isset($imput['tax'])) {
 			$form[$key]['options'] = get_terms($imput['tax']);
 		} elseif ($imput['source'] == 'meta' && isset($imput['options']) && is_array($imput['options'])) {
@@ -128,14 +128,19 @@ private function SanitizeOutput($input) {
 	foreach ($input as $key => $imput) {
 		$imput = (array) $imput;
 		foreach ($imput as $subkey => $value) {
-			if(isset($this->schema[$subkey])) {
-				switch ($this->schema[$subkey]['type']) {
+			if(isset(static::$schema[$subkey])) {
+				switch (static::$schema[$subkey]['type']) {
 					case 'string':
 						$input[$key][$subkey] = $value = (string) $value;
 						break;
 					case 'int':
 						$input[$key][$subkey] = $value = (int) $value;
 						break;
+					case 'bool':
+						$input[$key][$subkey] = $value = (bool) $value;
+						break;
+					case 'array':
+						$input[$key][$subkey] = $value = (array) $value;
 					case 'arrays':
 						$input[$key][$subkey] = $value = array_values($value);
 						foreach ($value as $akey => $array) {
@@ -151,8 +156,8 @@ private function SanitizeOutput($input) {
 				$input[$key][$subkey] = null;
 				continue;
 			}
-			if (isset($this->schema[$key]['allowed'])) {
-				if (!in_array($value, $this->schema[$key]['allowed']) && !array_key_exists($value, $this->schema[$key]['allowed'])) {
+			if (isset(static::$schema[$key]['allowed'])) {
+				if (!in_array($value, static::$schema[$key]['allowed']) && !array_key_exists($value, static::$schema[$key]['allowed'])) {
 					$input[$key][$subkey] = null;
 					continue;
 				}
