@@ -102,17 +102,11 @@ function j_query_filter($args = false) {
 
 add_action('parse_query', function($query) {
 	if($query->is_main_query() && $query->is_post_type_archive() && in_array($pt = $query->query_vars['post_type'], UiJQueryFilter::GetFilteredPT())) {
-		$query_vars = $query->query;
 		$sidebarQueryFilter = UiJQueryFilter::GetFilterForPT($pt);
 		$args = array(
-			'post_type' => $pt,
-			// 'posts_per_page' => 16,
-			// 'offset' => (isset($_REQUEST['offset']) && $_REQUEST['offset']) ? $_REQUEST['offset'] : 0,
-			'suppress_filters' => true,
-			// 'post_status' => (in_array('administrator', wp_get_current_user()->roles)) ? 'any' : 'publish',
+			// 'post_type' => $pt,
 		);
-		$query->query_vars = $sidebarQueryFilter->QueryFilter($_GET, $args);
-		// var_dump($query);
+		$query->query_vars = array_merge($query->query_vars, $sidebarQueryFilter->QueryFilter($_GET, $args));
 	}
 	return;
 });

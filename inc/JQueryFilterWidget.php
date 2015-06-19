@@ -81,10 +81,14 @@ public function widget( $args, $instance ) {
 	// var_dump([$args, $instance]);
 	$form = $filterObject->UiContentFilterGenerate();
 
+	printf('<div class="filters"><form action="%s" method="get"><ul class="filters-list">', get_post_type_archive_link($pt));
+
 	foreach ($form as $filter) {
 		if(!isset($filter['classes']) || !is_array($filter['classes'])) {
 			$filter['classes'] = array();
 		}
+		$filter['collapse'] = (isset($filter['collapse'])) ? $filter['collapse'] : false;
+		$filter['orientation'] = (isset($filter['orientation'])) ? $filter['orientation'] : 'vertical';
 		printf('<li id="filter-%s-%s" class="">', $pt, $filter['name'], implode($filter['classes']));
 		printf('<span class="toggler" data-can-collapse="%s">', $filter['collapse']);
 		printf('<span class="title">%s</span></span>', $filter['title']);
@@ -108,9 +112,7 @@ public function widget( $args, $instance ) {
 		print ('</li>');
 	}
 
-	printf('<div class="filters"><form action="%s" method="get"><ul class="filters-list">', get_post_type_archive_link($pt));
-
-	print ('</ul></form></div>');
+	printf('</ul><input type="submit" value="%s" /></form></div>', __('Submit'));
 
 	echo $args['after_widget'];
 }
@@ -118,14 +120,19 @@ public function widget( $args, $instance ) {
 protected static function list_filter($filter, $pt) {
 	foreach ($filter['options'] as $option) {
 		print ('<li>');
-		printf('<input id="filtr-%s-%s-%s" class="inc" type="checkbox" value="%s" name="%s[]" />',
+		printf('<input id="filtr-%s-%s-%s" class="inc" type="checkbox" value="%s" name="%s[]" %s />',
 			$pt,
 			$option['taxonomy'],
 			$option['slug'],
 			$option['slug'],
-			$option['taxonomy']
+			$option['taxonomy'],
+			checked( (
+				isset($_REQUEST[$option['taxonomy']]) &&
+				is_array($_REQUEST[$option['taxonomy']]) &&
+				in_array($option['slug'], $_REQUEST[$option['taxonomy']])
+			), true, false)
 		);
-		switch ($option['type']) {
+		switch ($filter['type']) {
 			case 'list':
 				printf('<label for="filtr-%s-%s-%s">%s</label>',
 					$pt,
