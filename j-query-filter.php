@@ -100,13 +100,15 @@ function j_query_filter($args = false) {
 	if (defined('DOING_AJAX') && DOING_AJAX) exit;
 }
 
-add_action('parse_query', function($query) {
+add_action('pre_get_posts', function($query) {
 	if($query->is_main_query() && $query->is_post_type_archive() && in_array($pt = $query->query_vars['post_type'], UiJQueryFilter::GetFilteredPT())) {
 		$sidebarQueryFilter = UiJQueryFilter::GetFilterForPT($pt);
 		$args = array(
 			// 'post_type' => $pt,
 		);
-		$query->query_vars = array_merge($query->query_vars, $sidebarQueryFilter->QueryFilter($_GET, $args));
+		// var_dump($query);
+		$query->parse_query(array_merge($query->query, $sidebarQueryFilter->QueryFilter($_GET, $args)));
+		// var_dump($query);
 	}
 	return;
 });
