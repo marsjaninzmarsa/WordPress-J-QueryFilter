@@ -1,0 +1,254 @@
+.j-query-filters.style-default .filters-list {
+  list-style: none;
+}
+.j-query-filters.style-default h3 {
+  box-sizing: border-box;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  border-bottom: 1px solid #ccc;
+  font-family: DroidSans;
+  letter-spacing: -.05em;
+  font-size: 1.5em;
+}
+.j-query-filters.style-default .filters-list > li {
+  padding-bottom: 7px;
+  border-bottom: 1px solid #f8f8f8;
+}
+.j-query-filters.style-default .btn {
+  margin: 25px 0 0 23px;
+  width: 208px;
+  height: 39px;
+  display: block;
+  line-height: 36px;
+  text-indent: 15px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #fff;
+  font-family: NeoSans;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  background: url(default/filters-btn.png) no-repeat;
+}
+.j-query-filters.style-default .toggler {
+  color: #000;
+  font-size: 1.33em;
+  background: #ececec;
+  padding: 0 20px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 0 7px;
+  display: block;
+  text-transform: uppercase;
+  font-family: tahoma, DroidSans;
+  font-size: 13px;
+  /*font-weight: bold;*/
+  letter-spacing: 0.05em;
+  cursor: default;
+  border-top: 1px solid #fff;
+}
+.j-query-filters.style-default .toggler span:after {
+  content: ":";
+}
+.j-query-filters.style-default .toggler i {
+  color: #2d829b;
+  font-size: .875em;
+  margin-right: 10px;
+}
+.j-query-filters.style-default .toggler[data-can-collapse=true] {
+  cursor: pointer;
+}
+.j-query-filters.style-default .toggler[data-can-collapse=true]:hover {
+  background: #f2f2f2;
+}
+.j-query-filters.style-default .toggler[data-can-collapse=true] span:after {
+  margin-left: 5px;
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  background: url(default/arrow.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  transition: all .5s ease-out;
+}
+.j-query-filters.style-default .collapsed .toggler[data-can-collapse=true] span:after {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
+.j-query-filters.style-default li:first-child .toggler {
+  border-top: none;
+}
+.j-query-filters.style-default .details {
+  margin: 0 10px;
+  overflow: hidden;
+  max-height: 5000px;
+  opacity: 1;
+  transition: all 1s ease-out, max-height .3s ease-out;
+}
+.j-query-filters.style-default .collapsed .details {
+  max-height: 0;
+  opacity: 0;
+  margin: -7px 10px;
+}
+.j-query-filters.style-default .details:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+.j-query-filters.style-default .details li .inc {
+  float: left;
+  margin: 0px 5px 0 0;
+}
+.j-query-filters.style-default .details li label {
+  overflow: hidden;
+  display: block;
+  text-transform: capitalize;
+  padding: 10px 0;
+  font: 65%/1.25 Helvetica,Arial,sans-serif
+}
+.j-query-filters.style-default .details li:nth-child(2n+1) {
+  clear: left;
+}
+.j-query-filters.style-default .details li ul {
+  max-height: 0;
+  padding-left: 8px;
+  opacity: 0;
+  transition: all 0.5s ease-in;
+  overflow: hidden;
+}
+.j-query-filters.style-default .details li input[type=checkbox] {
+  display: none;
+}
+.j-query-filters.style-default .details li input[type=checkbox] + label {
+  cursor: pointer;
+}
+.j-query-filters.style-default .details.list-type li input[type=checkbox] + label:before {
+  content: "";
+  background: white;
+  display: inline-block;
+  border: 1px solid #dadada;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  margin-bottom: -2px;
+}
+.j-query-filters.style-default .details li input[type=checkbox]:checked + label {
+  font-weight: bold;
+  position: relative;
+}
+.j-query-filters.style-default .details.list-type li input[type=checkbox]:checked + label:before {
+  background: #0f0;
+  border-color: #0f0;
+}
+.j-query-filters.style-default .details.list-type li input[type=checkbox]:checked + label:after {
+  content: "x";
+  background: #e4e4e4;
+  display: inline-block;
+  margin: -5px 5px;
+  width: 21px;
+  height: 21px;
+  line-height: 23px;
+  text-align: center;
+  font-size: 8px;
+  font-weight: normal;
+  position: absolute;
+  top: 12px;
+}
+.j-query-filters.style-default .details li input[type=checkbox]:checked + label + ul {
+  max-height: 250px;
+  padding-top: 8px;
+  margin-top: -10px;
+  opacity: 1;
+}
+.j-query-filters.style-default .details.color_list-type {
+  padding: 20px 10px;
+}
+.j-query-filters.style-default .details.color_list-type li {
+  padding: 0;
+  margin-right: 1px;
+  vertical-align: top;
+}
+.j-query-filters.style-default .details.color_list-type li input[type=checkbox] + label {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  color: transparent;
+}
+.j-query-filters.style-default .details.color_list-type li input[type=checkbox] + label + div.deselect {
+  height: 0;
+  opacity: 0;
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+  background: #e4e4e4;
+  padding: 0 5px;
+  line-height: 22px;
+  text-align: center;
+}
+.j-query-filters.style-default .details.color_list-type li input[type=checkbox]:checked + label + div.deselect {
+  height: 20px;
+  opacity: 1;
+}
+.j-query-filters.style-default .details li input[type=checkbox] + label + ul li {
+  position: relative;
+  overflow: visible;
+}
+.j-query-filters.style-default .details li input[type=checkbox] + label + ul li:before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: -1px;
+  width: 10px;
+  height: 35px;
+  border: dashed #a2a2a2;
+  border-width: 0 0 1px 1px;
+}
+.j-query-filters.style-default .toggler div.deselect {
+  cursor: pointer;
+  font-family: Arial;
+  color: #000;
+  margin: 0 -12px 0 0;
+  padding: 1px 4px;
+  line-height: 27px;
+  text-transform: none;
+  float: right;
+  display: none;
+}
+.j-query-filters.style-default .toggler div.deselect.active {
+  display: inline-block;
+}
+.j-query-filters.style-default .details.orientation-horizontal li {
+  display: inline-block;
+  border: none;
+} 
+.j-query-filters.style-default .details-cols li {
+  width: auto;
+  display: block;
+  padding: 0 10px;
+  border-top: 1px solid #ddd;
+  overflow: hidden;
+}
+.j-query-filters.style-default .details-cols li:first-child, .j-query-filters.style-default .details-cols li ul li {
+  border-top: none;
+}
+.j-query-filters.style-default .details-cols li span {
+  float: left;
+  width: 50%;
+  display: inline;
+}
+.j-query-filters.style-default .slider {
+  margin: 50px 17px 10px;
+  background: url(default/stripes.png) no-repeat center 10px;
+}
+.j-query-filters.style-default .slider .slider-values {
+  margin-top: 20px;
+  height: 1.6em;
+}
+.j-query-filters.style-default .slider #slider-text strong {
+  font-weight: bold;
+}
