@@ -103,7 +103,6 @@ function wyszukiwarka_ofert($data) {
 		$args = $sidebarQueryFilter->QueryFilter($data, $args);
 
 		$wp_query = new WP_Query($args);
-		// echo '<pre>'; var_dump($wp_query); echo '</pre>';
 		$wp_query->has_results = true;
 	} else {
 		$wp_query->has_results = false;
@@ -111,7 +110,6 @@ function wyszukiwarka_ofert($data) {
 }
 
 function j_query_filter($args = false) {
-	// die('dupa');
 	global $wp_query;
 	wyszukiwarka_ofert(($args)? $args: $_GET);
 	global $post;
@@ -125,8 +123,6 @@ function j_query_filter($args = false) {
 	if(isset($_REQUEST['search']) && !$_REQUEST['offset'] && !$wp_query->posts) {
 		printf('<div class="noResults">%s</div>', __('Brak wyników wyszukiwania', 'twentythirteen'));
 	}
-	// print('<pre>'); var_dump($wp_query); print('</pre>');
-	// get_template_part('content', 'obrazy');
 	if (defined('DOING_AJAX') && DOING_AJAX) exit;
 }
 
@@ -136,9 +132,7 @@ add_action('pre_get_posts', function($query) {
 		$args = array(
 			// 'post_type' => $pt,
 		);
-		// var_dump($query);
 		$query->parse_query(array_merge($query->query, $sidebarQueryFilter->QueryFilter($_GET, $args)));
-		// var_dump($query);
 	}
 	return;
 });
