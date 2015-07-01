@@ -9,6 +9,9 @@ Version: 0.0.1
 License: GPL v3
 */
 
+if(!defined('J_QUERY_FILTER_V'))
+	define('J_QUERY_FILTER_V', '0.0.1');
+
 if(!extension_loaded('yaml') && !class_exists('Spyc')) {
 	require_once "spyc/spyc.php";
 }
@@ -41,22 +44,49 @@ add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );
 add_action( 'wp_ajax_sidebar_query_filter', 'j_query_filter' );
 
 function enqueue_and_register_j_query_filter(){
-
-	/* jQuery Deserialize Script */
-	wp_register_script('jquery-deserialize', plugins_url('js/jquery.deserialize.js', __FILE__), array('jquery'));
-	wp_enqueue_script('jquery-deserialize');
-
-	/* PURL */
-	wp_register_script('purl', plugins_url('js/purl.js', __FILE__));
-	wp_enqueue_script('purl');
-	/* jQuery Color */
-	wp_enqueue_script('jquery-color');
-	/* jQueryFilter */
-	wp_register_script( 'j-query-filter', plugins_url('js/j-query-filter.js', __FILE__), array('jquery-ui-slider', 'jquery-form', 'jquery-deserialize', 'jquery-color', 'purl') );
-	global $sidebarQueryFilter;
-	// wp_localize_script( 'j-query-filter', 'sidebar_query_filter', $sidebarQueryFilter->UiContentFilterGenerate() );
-	// wp_localize_script( 'j-query-filter', 'sidebar_query_filter_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'search_url' => get_permalink() ) );
-	wp_enqueue_script( 'j-query-filter' );
+	wp_register_script(
+		'jquery-deserialize',
+		plugins_url('js/jquery.deserialize.js', __FILE__),
+		array('jquery'),
+		'1.2.1'
+	);
+	wp_register_script(
+		'purl',
+		plugins_url('js/purl.js', __FILE__),
+		array(),
+		'2.3.1'
+	);
+	wp_register_script(
+		'j-query-filter',
+		plugins_url('js/j-query-filter.js', __FILE__),
+		array(
+			'jquery-ui-slider',
+			'jquery-form',
+			'jquery-deserialize',
+			'jquery-color',
+			'purl'
+		),
+		J_QUERY_FILTER_V
+	);
+	$instances = UiJQueryFilter::GetInstances();
+	$styles = array();
+	foreach (glob(plugin_dir_path( __FILE__ ).'css/*.css') as $file) {
+		$styles[] = $name = basename($file, '.css');
+		wp_register_style(
+			'j-query-filter-'.$name,
+			plugins_url('css/'.$name.'.css', __FILE__),
+			array(),
+			J_QUERY_FILTER_V
+		);
+	}
+	if(!empty($instances)) {
+		wp_enqueue_script( 'j-query-filter' );
+		foreach ($instances as $instance) {
+			if(in_array($name = $instance->style, $styles)) {
+				wp_enqueue_style( 'j-query-filter-'.$name );
+			}
+		}
+	}
 }
 
 function wyszukiwarka_ofert($data) {

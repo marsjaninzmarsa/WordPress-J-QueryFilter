@@ -60,6 +60,12 @@ protected $form = array (
 		'type' => 'textarea',
 		'parser' => 'yaml',
 	),
+	array ( // going to change in future version with support for widget filter themes
+		'id' => 'style',
+		'description' => 'Load default widget style (uncheck if you want to style it on your own)',
+		'default' => true,
+		'type' => 'checkbox',
+	),
 );
 
 
@@ -81,7 +87,14 @@ public function widget( $args, $instance ) {
 	// var_dump([$args, $instance]);
 	$form = $filterObject->UiContentFilterGenerate();
 
-	printf('<div class="filters"><form action="%s" method="get"><ul class="filters-list">', get_post_type_archive_link($pt));
+	printf(
+		'<div class="%s"><form action="%s" method="get"><ul class="filters-list">',
+		implode(' ', array(
+			'j-query-filters',
+			'style-'.$filterObject->style,
+		)),
+		get_post_type_archive_link($pt)
+	);
 
 	foreach ($form as $filter) {
 		if(!isset($filter['classes']) || !is_array($filter['classes'])) {
@@ -95,12 +108,12 @@ public function widget( $args, $instance ) {
 		switch ($filter['type']) {
 			case 'list':
 			case 'color-list':
-				printf('<ul class="details details-cols orientation-%s %-type">', $filter['orientation'], $filter['type']);
+				printf('<ul class="details details-cols orientation-%s %s-type">', $filter['orientation'], $filter['type']);
 				static::list_filter($filter, $pt);
 				print ('</ul>');
 			break;
 			case 'range':
-				print ('<div class="details details-cols>');
+				print ('<div class="details details-cols">');
 				static::range_filter($filter, $pt);
 				print ('</div>');
 			break;
@@ -118,6 +131,7 @@ public function widget( $args, $instance ) {
 }
 
 protected static function list_filter($filter, $pt) {
+	// var_dump($filter);
 	foreach ($filter['options'] as $option) {
 		print ('<li>');
 		printf('<input id="filtr-%s-%s-%s" class="inc" type="checkbox" value="%s" name="%s[]" %s />',
@@ -142,9 +156,10 @@ protected static function list_filter($filter, $pt) {
 				);
 				if(isset($option['children']) && is_array($option['children'])) {
 					print ('<ul>');
-					foreach ($option['children'] as $suboption) {
-						static::list_filter($option, $pt);
-					}
+					static::list_filter(array(
+						'type'    => 'list',
+						'options' => $option['children']
+					), $pt);
 					print ('</ul>');
 				}
 			break;

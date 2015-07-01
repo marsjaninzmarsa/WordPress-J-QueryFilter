@@ -4,6 +4,7 @@ class UiJQueryFilter {
 
 public $form = array();
 public $post_type;
+public $style;
 protected static $schema;
 protected static $_instances = array();
 
@@ -17,6 +18,7 @@ function __construct($settings) {
 	), $settings);
 	$this->post_type = $settings['post_type'];
 	$this->form      = $settings['filters'];
+	$this->style     = ($settings['style']) ? 'default' : false;
 	// var_dump($settings); die;
 	static::$_instances[] = $this;
 }
@@ -41,6 +43,10 @@ public static function EncodeYaml($array) {
 	} else {
 		return Spyc::YAMLDump($array);
 	}
+}
+
+public static function GetInstances() {
+	return static::$_instances;
 }
 
 public static function GetFilteredPT() {
