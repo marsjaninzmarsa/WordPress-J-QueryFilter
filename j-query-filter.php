@@ -31,6 +31,9 @@ add_action('widgets_init', function() {
 add_action('wp_register_sidebar_widget', function($widget) {
 	if($widget['classname'] == 'widget_j_query_filter_widget') {
 		$number   = $widget['params'][0]['number'];
+		if($number < 0) {
+			return;
+		}
 		$settings = $widget['callback'][0]->get_settings()[$number];
 		$sidebarQueryFilter = new UiJQueryFilter($settings);
 	}
