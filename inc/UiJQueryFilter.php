@@ -66,6 +66,18 @@ public static function GetFilterForPT($pt) {
 	return null;
 }
 
+public static function GetPageLinkBySlug($slug) {
+	$page = get_page_by_path($slug);
+	$id = @$page->ID;
+	if(!$id) {
+		return '';
+	}
+	if(function_exists('icl_object_id')) {
+		$id = icl_object_id($id, 'page', true, ICL_LANGUAGE_CODE);
+	}
+	return get_page_link($id);
+}
+
 public function UiContentFilterGenerate() {
 	$form = $this->form;
 	foreach ($form as $key => $imput) {

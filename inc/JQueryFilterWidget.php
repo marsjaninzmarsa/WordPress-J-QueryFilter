@@ -93,7 +93,9 @@ public function widget( $args, $instance ) {
 			'j-query-filters',
 			'style-'.$filterObject->style,
 		)),
-		get_post_type_archive_link($pt)
+		(isset($instance['custom_form_target']))
+			? UiJQueryFilter::GetPageLinkBySlug($instance['custom_form_target'])
+			: get_post_type_archive_link($pt)
 	);
 
 	foreach ($form as $filter) {
