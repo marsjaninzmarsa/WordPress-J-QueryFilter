@@ -35,6 +35,7 @@ add_action('wp_register_sidebar_widget', function($widget) {
 			return;
 		}
 		$settings = $widget['callback'][0]->get_settings()[$number];
+		// var_dump($settings); die;
 		$sidebarQueryFilter = new UiJQueryFilter($settings);
 	}
 });

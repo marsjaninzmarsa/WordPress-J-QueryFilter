@@ -176,25 +176,29 @@ private function SanitizeOutput($input) {
 
 private function QueryParricide($data, $input, $form) {
 	// print('<pre>'); var_dump($input); print('</pre>');
-	// var_dump($data[$input['name']]);
-	foreach ($data[$input['name']] as $key => $filter) {
-		foreach ($input['options'] as $subkey => $option) {
-			if($filter == $option['slug'] && isset($option['children']) && is_array($option['children'])) {
-				// echo "key: $key, subkey: $subkey \n";
-				foreach ($option['children'] as $row => $children) {
-					// var_dump($filter);
-					// var_dump($option);
-					// var_dump($children);
-					if(in_array($children['slug'], $data[$input['name']])) {
-						// var_dump($data[$input['name']]);
-						// var_dump($data[$input['name']][$key]);
-						unset($data[$input['name']][$key]);
+	// var_dump($data[$input['name']]); die;
+	if(isset($data[$input['name']])) {
+		if(is_array($data[$input['name']])) {
+			foreach ($data[$input['name']] as $key => $filter) {
+				foreach ($input['options'] as $subkey => $option) {
+					if($filter == $option['slug'] && isset($option['children']) && is_array($option['children'])) {
+						// echo "key: $key, subkey: $subkey \n";
+						foreach ($option['children'] as $row => $children) {
+							// var_dump($filter);
+							// var_dump($option);
+							// var_dump($children);
+							if(in_array($children['slug'], $data[$input['name']])) {
+								// var_dump($data[$input['name']]);
+								// var_dump($data[$input['name']][$key]);
+								unset($data[$input['name']][$key]);
+							}
+						}
 					}
 				}
 			}
 		}
+		return $data[$input['name']];
 	}
-	return $data[$input['name']];
 }
 
 public function QueryFilter($data, $args) {
