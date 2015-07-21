@@ -103,10 +103,10 @@ public function UiContentFilterGenerate() {
 private function RefillForm($form) {
 	foreach ($form as $key => $imput) {
 		if (!isset($imput['name'])) {
-			if (isset($imput['tax'])) {
-				$form[$key]['name'] = $imput['tax'];
-			} elseif (isset($imput['key'])) {
+			if (isset($imput['key'])) {
 				$form[$key]['name'] = $imput['key'];
+			} elseif (isset($imput['tax'])) {
+				$form[$key]['name'] = $imput['tax'];
 			}
 		}
 	}
