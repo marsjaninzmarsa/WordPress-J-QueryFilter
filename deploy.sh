@@ -40,8 +40,6 @@ echo "readme version: $NEWVERSION1"
 #NEWVERSION2=`grep "^Version" $GITPATH/$MAINFILE | awk -F' ' '{print $2}'`
 NEWVERSION2=`grep -i "Version" $GITPATH/$MAINFILE | head -n1 | awk -F':' '{print $2}' | awk -F' ' '{print $1}' | tr -d '\r'`
 echo "$MAINFILE version: $NEWVERSION2"
-echo `od -a <<< "$NEWVERSION1"` > v1.txt
-echo `od -a <<< "$NEWVERSION2"` > v2.txt
 
 if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exiting...."; exit 1; fi
 

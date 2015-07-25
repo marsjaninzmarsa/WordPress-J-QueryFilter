@@ -57,7 +57,7 @@ Cause lack of time. You may donate me, I think, if you wanna, then I may have mo
 
 = Why not foo/bar on your todo list? =
 
-Cause I don't thought about if yet? Feel free to [contact me](https://profiles.wordpress.org/marsjaninzmarsa) with suggestion or [open a Issue on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter/issues). 
+Cause I don't thought about it yet? Feel free to [contact me](https://profiles.wordpress.org/marsjaninzmarsa) with suggestion or [open a Issue on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter/issues). 
 
 == Screenshots ==
 
