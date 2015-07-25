@@ -68,7 +68,7 @@ Coming soon...
 == Changelog ==
 
 = 0.0.2 =
-* Fixes compatibility issue with PHP 4.3 versions.
+* Fixes compatibility issue with PHP 5.3 versions.
 
 = 0.0.1 =
 * Initial release.
