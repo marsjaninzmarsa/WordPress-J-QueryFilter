@@ -1,5 +1,5 @@
-=== Plugin Name ===
-Contributors: marsjaninzmarsa
+=== Query Filter ===
+Contributors: marsjaninzmarsa, mainpagepl
 Tags: advanced, query, WP Query, filter, search, widget, custom post type, Taxonomy, meta, custom field
 Requires at least: 3.0.0
 Tested up to: 4.3
