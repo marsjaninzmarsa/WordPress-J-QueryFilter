@@ -3,7 +3,7 @@ Contributors: marsjaninzmarsa, mainpagepl
 Tags: advanced, query, WP Query, filter, search, widget, custom post type, Taxonomy, meta, custom field
 Requires at least: 3.0.0
 Tested up to: 4.3
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -64,6 +64,14 @@ Cause I don't thought about it yet? Feel free to [contact me](https://profiles.w
 == Screenshots ==
 
 Coming soon...
+
+== Changelog ==
+
+= 0.0.2 =
+* Fixes compatibility issue with PHP 4.3 versions.
+
+= 0.0.1 =
+* Initial release.
 
 == Advanced integration ==
 

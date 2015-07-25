@@ -5,7 +5,7 @@ Plugin URI: http://niewiarowski.it/
 Description: Advanced taxonomy and meta post filtering plugin.
 Author: Jakub 'marsjaninzmarsa' Niewiarowski
 Author URI: http://niewiarowski.it/
-Version: 0.0.1
+Version: 0.0.2
 License: GPL v3
 */
 
@@ -34,8 +34,8 @@ add_action('wp_register_sidebar_widget', function($widget) {
 		if($number < 0) {
 			return;
 		}
-		$settings = $widget['callback'][0]->get_settings()[$number];
-		// var_dump($settings); die;
+		$settings = $widget['callback'][0]->get_settings();
+		$settings = $settings[$number];
 		$sidebarQueryFilter = new UiJQueryFilter($settings);
 	}
 });

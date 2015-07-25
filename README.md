@@ -10,6 +10,8 @@ Advanced taxonomy and Custom Fields CPT filtering plugin.
 
 Plugin for advanced filtering of site content by taxonomies and custom fields. If you have portfolio site and need to give users power of filtering items by topic and year, or photoblog with hundreds of photos categorized by colors, place and photographer, or even shop with bikes various type, vendor and price - this is something for you. You can setup filtering of any Post Type by any tax or meta parameter, text or numeric and display to your visitors fancy and configurable filtering widget.
 
+Development is happening [on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter).
+
 #### Functions ####
 
 * Support for any Post Type on site and any theme - if you can display it, you can filter it
@@ -54,11 +56,19 @@ Cause lack of time. You may donate me, I think, if you wanna, then I may have mo
 
 #### Why not foo/bar on your todo list? ####
 
-Cause I don't thought about if yet? Feel free to [contact me](https://profiles.wordpress.org/marsjaninzmarsa) with suggestion or [open a Issue on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter/issues). 
+Cause I don't thought about it yet? Feel free to [contact me](https://profiles.wordpress.org/marsjaninzmarsa) with suggestion or [open a Issue on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter/issues). 
 
 ## Screenshots ##
 
 Coming soon...
+
+## Changelog ##
+
+#### 0.0.2 ####
+* Fixes compatibility issue with PHP 4.3 versions.
+
+#### 0.0.1 ####
+* Initial release.
 
 ## Advanced integration ##
 
