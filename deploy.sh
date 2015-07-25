@@ -53,7 +53,12 @@ read COMMITMSG
 git commit -am "$COMMITMSG"
 
 echo "Tagging new version in git"
-git tag -a "$NEWVERSION1" -m "Tagging version $NEWVERSION1"
+set -f
+RELEASENOTES="$(cat $GITPATH/readme.txt | awk -v ver="$NEWVERSION1" -v RS='\n\n' '/== Changelog ==/ { foo = 0 } $0 ~ ver { print }' | grep -E '^\*')"
+echo $RELEASENOTES
+git tag -a "$NEWVERSION1" -m "Version $NEWVERSION1
+$RELEASENOTES"
+set +f
 
 echo "Pushing latest commit to origin, with tags"
 git push origin master
