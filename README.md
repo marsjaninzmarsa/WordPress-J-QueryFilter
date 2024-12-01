@@ -64,6 +64,9 @@ Coming soon...
 
 ## Changelog ##
 
+#### 0.0.3 ####
+* Bugfix: Properly initialize filters for main loop on standard posts listing
+
 #### 0.0.2 ####
 * Fixes compatibility issue with PHP 5.3 versions.
 
