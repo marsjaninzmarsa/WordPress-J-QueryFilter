@@ -19,7 +19,7 @@ protected $form = array (
 	array (
 		'id' => 'post_type',
 		'description' => 'Post Type',
-		'default' => 'post',
+		'default' => '',
 		'type' => 'select',
 		'params_callback' => array(
 			'static::getPostTypes',

@@ -65,6 +65,7 @@ Coming soon...
 ## Changelog ##
 
 #### 0.0.3 ####
+* Bugfix: Fixed widget initialization on default params
 * Bugfix: Properly initialize filters for main loop on standard posts listing
 
 #### 0.0.2 ####
