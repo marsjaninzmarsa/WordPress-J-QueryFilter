@@ -89,7 +89,7 @@ function enqueue_and_register_j_query_filter(){
 	}
 }
 
-function wyszukiwarka_ofert($data) {
+function j_query_filter_query($data) {
 	global $sidebarQueryFilter, $wp_query;
 	if (!empty($data)) {
 		$args = array(
@@ -109,9 +109,17 @@ function wyszukiwarka_ofert($data) {
 	}
 }
 
+if ( ! function_exists('vd') ) {
+	function vd( ...$params ) {
+		if ( isset( $_REQUEST['debug'] ) ) {
+			var_dump( ...$params );
+		}
+	}
+}
+
 function j_query_filter($args = false) {
 	global $wp_query;
-	wyszukiwarka_ofert(($args)? $args: $_GET);
+	j_query_filter_query(($args)? $args: $_GET);
 	global $post;
 	foreach ($wp_query->posts as $key => $post) {
 		get_template_part('theme-template-parts/content/content', 'offer-item-13');
