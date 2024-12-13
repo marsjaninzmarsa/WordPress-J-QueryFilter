@@ -12,11 +12,17 @@ License: GPL v3
 if(!defined('J_QUERY_FILTER_V'))
 	define('J_QUERY_FILTER_V', '0.0.1');
 
-if(!extension_loaded('yaml') && !class_exists('Spyc')) {
-	require_once "spyc/spyc.php";
+// Composer autoloader
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once __DIR__ . '/vendor/autoload.php';
+} else {
+	wp_die( 'Please run <code>composer install</code>', 'Composer not loaded' );
 }
+// if(!extension_loaded('yaml') && !class_exists('Spyc')) {
+// 	require_once "spyc/spyc.php";
+// }
 
-spl_autoload_register(function($class) {
+spl_autoload_register(function($class) { // TODO: rewrite to PSR
 	if(is_file($file = dirname(__FILE__) . "/inc/$class.php")) {
 		include_once $file;
 	}

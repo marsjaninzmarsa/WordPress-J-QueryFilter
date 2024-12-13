@@ -8,7 +8,7 @@ Advanced taxonomy and Custom Fields CPT filtering plugin.
 
 ## Description ##
 
-Plugin for advanced filtering of site content by taxonomies and custom fields. If you have portfolio site and need to give users power of filtering items by topic and year, or photoblog with hundreds of photos categorized by colors, place and photographer, or even shop with bikes various type, vendor and price - this is something for you. You can setup filtering of any Post Type by any tax or meta parameter, text or numeric and display to your visitors fancy and configurable filtering widget.
+Plugin for advanced filtering of site content by taxonomies and custom fields. If you have a portfolio site and need to give users power of filtering items by topic and year, or photoblog with hundreds of photos categorized by colors, place and photographer, or even shop with bikes of various types, vendors and prices - this is something for you. You can setup filtering of any Post Type by any tax or meta parameter, text or numeric, and greet your visitors with fancy and configurable filtering widget.
 
 Development is happening [on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter).
 
@@ -40,7 +40,7 @@ Development is happening [on GitHub](https://github.com/marsjaninzmarsa/WordPres
 
 #### I can't choose any Post Type to filtering ####
 
-Do you have any? Plugin currently allows only to choose Post Type which is public and have archive (relays on archive template when displaying results). It may going to change in future releases.
+What post types you have defined? Plugin currently allows only to choose Post Type which is public and have archive (relays on archive template when displaying results). It may going to change in future releases.
 
 #### What is this weird "Filtering parameters" thing? How to deal with it? ####
 
@@ -56,7 +56,7 @@ Cause lack of time. You may donate me, I think, if you wanna, then I may have mo
 
 #### Why not foo/bar on your todo list? ####
 
-Cause I don't thought about it yet? Feel free to [contact me](https://profiles.wordpress.org/marsjaninzmarsa) with suggestion or [open a Issue on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter/issues). 
+Cause I don't thought about it yet. 😉 Feel free to [contact me](https://profiles.wordpress.org/marsjaninzmarsa) with suggestion or [open a Issue on GitHub](https://github.com/marsjaninzmarsa/WordPress-J-QueryFilter/issues). 
 
 ## Screenshots ##
 
@@ -64,9 +64,12 @@ Coming soon...
 
 ## Changelog ##
 
+#### 2.9.0 ####
+
 #### 0.0.3 ####
 * Bugfix: Fixed widget initialization on default params
 * Bugfix: Properly initialize filters for main loop on standard posts listing
+* Internal: Composer integration for dependencies
 
 #### 0.0.2 ####
 * Fixes compatibility issue with PHP 5.3 versions.
@@ -74,6 +77,25 @@ Coming soon...
 #### 0.0.1 ####
 * Initial release.
 
-## Advanced integration ##
+## Advanced Integration ##
 
 Coming soon...
+
+## TODO [internal] ##
+* -Composer integration for dependencies-
+* PSR4 class loader
+* NPM integration for JS dependencies...?
+* Migrate plugin deployment to GitHub Actions
+* Proper range filter support
+* Type: date
+	* Source: post_date
+	* Source: post_meta
+* Conditional JS loading (for colors, slider)
+* Cleaner schema for meta-filtering
+* Multiple filter groups per single post type (with interoperatibility)
+* Backcompat - Gutenberg widgets support
+* New - Gutenberg blocks support
+* Migration of widgets to Gutenberg blocks
+* Gutenberg site builder query block support
+* Internal documentation
+* README HOWTO: Advanced Integration

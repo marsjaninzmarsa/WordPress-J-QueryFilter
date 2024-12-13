@@ -1,0 +1,28 @@
+{
+    "name": "marsjaninzmarsa/wordpress-query-filter",
+    "description": "Advanced taxonomy and Custom Fields CPT filtering plugin.",
+    "type": "project",
+    "require": {
+        "mustangostang/spyc": "^0.6.3"
+    },
+    "license": "GPL v3+",
+    "autoload": {
+        "psr-4": {
+            "Marsjaninzmarsa\\WordpressQueryFilter\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jakub Niewiarowski",
+            "email": "jakub@niewiarowski.it"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.0"
+    }
+}
