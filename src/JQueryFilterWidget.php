@@ -1,5 +1,6 @@
 <?php
 namespace Marsjaninzmarsa\WordPressQueryFilter;
+use Marsjaninzmarsa\WordPressQueryFilter\Helpers;
 
 class JQueryFilterWidget extends \WP_Widget {
 function __construct() {
@@ -229,7 +230,7 @@ public function form( $instance ) {
 		if(isset($input['parser'])) {
 			switch ($input['parser']) {
 				case 'yaml':
-					$value = UiJQueryFilter::EncodeYaml($value);
+					$value = Helpers::EncodeYaml($value);
 				break;
 			}
 		}
@@ -290,7 +291,7 @@ public function update( $new_instance, $old_instance ) {
 		if(isset($input['parser'])) {
 			switch ($input['parser']) {
 				case 'yaml':
-					$instance[$input['id']] = UiJQueryFilter::ParseYaml($instance[$input['id']]);
+					$instance[$input['id']] = Helpers::ParseYaml($instance[$input['id']]);
 				break;
 			}
 		}

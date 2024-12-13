@@ -9,7 +9,7 @@ Version: 0.0.2
 License: GPL v3
 */
 
-use Marsjaninzmarsa\WordpressQueryFilter\UiJQueryFilter;
+use Marsjaninzmarsa\WordPressQueryFilter\UiJQueryFilter;
 
 if(!defined('J_QUERY_FILTER_V'))
 	define('J_QUERY_FILTER_V', '0.0.1');
@@ -24,7 +24,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 // Registering Widget
 add_action('widgets_init', function() {
-	return register_widget('Marsjaninzmarsa\WordpressQueryFilter\JQueryFilterWidget');
+	return register_widget('Marsjaninzmarsa\WordPressQueryFilter\JQueryFilterWidget');
 });
 
 add_action('wp_register_sidebar_widget', function($widget) {

@@ -8,7 +8,7 @@
     "license": "GPL v3+",
     "autoload": {
         "psr-4": {
-            "Marsjaninzmarsa\\WordpressQueryFilter\\": "src/"
+            "Marsjaninzmarsa\\WordPressQueryFilter\\": "src/"
         }
     },
     "authors": [

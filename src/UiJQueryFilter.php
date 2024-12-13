@@ -24,28 +24,6 @@ function __construct($settings) {
 	static::$_instances[] = $this;
 }
 
-public static function LoadYaml($file) {
-	if(extension_loaded('yaml')) {
-		return yaml_parse_file($file);
-	} else {
-		return Spyc::YAMLLoad($file);
-	}
-}
-public static function ParseYaml($yaml) {
-	if(extension_loaded('yaml')) {
-		return yaml_parse($yaml);
-	} else {
-		return Spyc::YAMLLoadString($yaml);
-	}
-}
-public static function EncodeYaml($array) {
-	if(extension_loaded('yaml')) {
-		return yaml_emit($array);
-	} else {
-		return Spyc::YAMLDump($array);
-	}
-}
-
 public static function GetInstances() {
 	return static::$_instances;
 }
