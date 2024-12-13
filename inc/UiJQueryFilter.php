@@ -80,14 +80,14 @@ public static function GetPageLinkBySlug($slug) {
 
 public function UiContentFilterGenerate() {
 	$form = $this->form;
-	foreach ($form as $key => $imput) {
-		if(!is_array($imput))
+	foreach ($form as $key => $input) {
+		if(!is_array($input))
 			break;
-		$form[$key]['title'] = $imput['title'];
-		if ($imput['source'] == 'tax' && isset($imput['tax'])) {
-			$form[$key]['options'] = get_terms($imput['tax']);
-		} elseif ($imput['source'] == 'meta' && isset($imput['options']) && is_array($imput['options'])) {
-			foreach ($imput['options'] as $subkey => $option) {
+		$form[$key]['title'] = $input['title'];
+		if ($input['source'] == 'tax' && isset($input['tax'])) {
+			$form[$key]['options'] = get_terms($input['tax']);
+		} elseif ($input['source'] == 'meta' && isset($input['options']) && is_array($input['options'])) {
+			foreach ($input['options'] as $subkey => $option) {
 				$form[$key]['options'][$subkey]['name'] = __($option['name'], 'twentythirteen');
 			}
 		}
@@ -101,12 +101,12 @@ public function UiContentFilterGenerate() {
 }
 
 private function RefillForm($form) {
-	foreach ($form as $key => $imput) {
-		if (!isset($imput['name'])) {
-			if (isset($imput['key'])) {
-				$form[$key]['name'] = $imput['key'];
-			} elseif (isset($imput['tax'])) {
-				$form[$key]['name'] = $imput['tax'];
+	foreach ($form as $key => $input) {
+		if (!isset($input['name'])) {
+			if (isset($input['key'])) {
+				$form[$key]['name'] = $input['key'];
+			} elseif (isset($input['tax'])) {
+				$form[$key]['name'] = $input['tax'];
 			}
 		}
 	}
@@ -114,76 +114,76 @@ private function RefillForm($form) {
 }
 
 private function ReindentOptions($form) {
-	foreach ($form as $row=>$imput) {
-		if(is_array($imput) && ($imput['type'] == 'list' || $imput['type'] == 'color_list')) {
+	foreach ($form as $row=>$input) {
+		if(is_array($input) && ($input['type'] == 'list' || $input['type'] == 'color_list')) {
 			$parents=array();
-			foreach($imput['options'] as $key=>$val){
+			foreach($input['options'] as $key=>$val){
 				$val = (array) $val;
 				if(@$val['parent']==0){
 					$parents[$key]=@$val['term_id'];  
 				}
-				$imput['options'][$key] = $val;
+				$input['options'][$key] = $val;
 			}
 			// look for children and move them
-			foreach($imput['options'] as $key=>$val){
+			foreach($input['options'] as $key=>$val){
 				if(@$val['parent']<>0){
 					// check if parent exists
 					$tokey=array_search($val['parent'],$parents);
 					if($tokey!==false){
 						// move child
-						$imput['options'][$tokey]['children'][] = $imput['options'][$key];
-						unset($imput['options'][$key]);
+						$input['options'][$tokey]['children'][] = $input['options'][$key];
+						unset($input['options'][$key]);
 					}
 				}
 			}
-			$form[$row] = $imput;
+			$form[$row] = $input;
 		}
 	}
 	return $form;
 }
 
-private function SanitizeOutput($input) {
-	foreach ($input as $key => $imput) {
-		$imput = (array) $imput;
-		foreach ($imput as $subkey => $value) {
+private function SanitizeOutput($output) {
+	foreach ($output as $key => $input) {
+		$input = (array) $input;
+		foreach ($input as $subkey => $value) {
 			if(isset(static::$schema[$subkey])) {
 				switch (static::$schema[$subkey]['type']) {
 					case 'string':
-						$input[$key][$subkey] = $value = (string) $value;
+						$output[$key][$subkey] = $value = (string) $value;
 						break;
 					case 'int':
-						$input[$key][$subkey] = $value = (int) $value;
+						$output[$key][$subkey] = $value = (int) $value;
 						break;
 					case 'bool':
-						$input[$key][$subkey] = $value = (bool) $value;
+						$output[$key][$subkey] = $value = (bool) $value;
 						break;
 					case 'array':
-						$input[$key][$subkey] = $value = (array) $value;
+						$output[$key][$subkey] = $value = (array) $value;
 					case 'arrays':
-						$input[$key][$subkey] = $value = array_values($value);
+						$output[$key][$subkey] = $value = array_values($value);
 						foreach ($value as $akey => $array) {
-							$input[$key][$subkey][$akey] = $array = (array) $array;
+							$output[$key][$subkey][$akey] = $array = (array) $array;
 						}
 						break;
 					default:
-						$input[$key][$subkey] = $value = null;
+						$output[$key][$subkey] = $value = null;
 						continue 2;
 						break;
 				}
 			} else {
-				$input[$key][$subkey] = null;
+				$output[$key][$subkey] = null;
 				continue;
 			}
 			if (isset(static::$schema[$key]['allowed'])) {
 				if (!in_array($value, static::$schema[$key]['allowed']) && !array_key_exists($value, static::$schema[$key]['allowed'])) {
-					$input[$key][$subkey] = null;
+					$output[$key][$subkey] = null;
 					continue;
 				}
 			}
 		}
-		$imput = array_filter($imput);
+		$input = array_filter($input);
 	}
-	return $input;
+	return $output;
 }
 
 private function QueryParricide($data, $input, $form) {
@@ -223,24 +223,24 @@ public function QueryFilter($data, $args) {
 		'sortby' => null,
 	), $data);
 	$form = $this->form;
-	foreach ($form as $key => $imput) {
-		if ($imput['source'] == 'tax' && isset($imput['tax'])) {
-			$form[$key]['options'] = get_terms($imput['tax']);
+	foreach ($form as $key => $input) {
+		if ($input['source'] == 'tax' && isset($input['tax'])) {
+			$form[$key]['options'] = get_terms($input['tax']);
 		}
 	}
 	$form = $this->RefillForm($form);
 	$form = $this->ReindentOptions($form);
 	// print_r($form);
-	foreach ($form as $key => $imput) {
-		switch ($imput['source']) {
+	foreach ($form as $key => $input) {
+		switch ($input['source']) {
 			case 'tax':
-				if(!empty($data[$imput['name']])) {
-					// var_dump($data[$imput['name']]);
-					$terms = $this->QueryParricide($data, $imput, $form);
+				if(!empty($data[$input['name']])) {
+					// var_dump($data[$input['name']]);
+					$terms = $this->QueryParricide($data, $input, $form);
 					// var_dump($terms);
 
 					$args['tax_query'][] = array(
-						'taxonomy' => $imput['tax'],
+						'taxonomy' => $input['tax'],
 						'terms'    => $terms,
 						'field'    => 'slug',
 						'operator' => 'IN'
@@ -249,24 +249,24 @@ public function QueryFilter($data, $args) {
 				}
 				break;
 			case 'meta':
-			// print('<pre>'); var_dump($imput); print('</pre>');
-				switch ($imput['type']) {
+			// print('<pre>'); var_dump($input); print('</pre>');
+				switch ($input['type']) {
 					case 'range':
-						if(strlen($data[$imput['min_name']])>0 || !empty($data[$imput['max_name']])) {
+						if(strlen($data[$input['min_name']])>0 || !empty($data[$input['max_name']])) {
 							$range = array(
-								($data[$imput['min_name']]) ? $data[$imput['min_name']] : $imput['min'],
-								($data[$imput['max_name']]) ? $data[$imput['max_name']] : $imput['max']
+								($data[$input['min_name']]) ? $data[$input['min_name']] : $input['min'],
+								($data[$input['max_name']]) ? $data[$input['max_name']] : $input['max']
 							);
-							if($imput['overflow_max'] && $range[1] >= $imput['max']) {
+							if($input['overflow_max'] && $range[1] >= $input['max']) {
 								$args['meta_query'][] = array(
-									'key'     => $imput['key'],
+									'key'     => $input['key'],
 									'value'   => $range[0],
 									'type'    => 'numeric',
 									'compare' => '>='
 								);
 							} else {
 								$args['meta_query'][] = array(
-									'key'     => $imput['key'],
+									'key'     => $input['key'],
 									'value'   => $range,
 									'type'    => 'numeric',
 									'compare' => 'BETWEEN'
@@ -276,10 +276,10 @@ public function QueryFilter($data, $args) {
 						break;
 
 					case 'text':
-						$parrice = $this->QueryParricide($data, $imput, $form);
+						$parrice = $this->QueryParricide($data, $input, $form);
 						if(!is_null($parrice))
 							$args['meta_query'][] = array(
-								'key'     => $imput['key'],
+								'key'     => $input['key'],
 								'value'   => $parrice,
 								'compare' => 'LIKE',
 								'type'    => 'string',
@@ -287,10 +287,10 @@ public function QueryFilter($data, $args) {
 						break;
 
 					default:
-						$parrice = $this->QueryParricide($data, $imput, $form);
+						$parrice = $this->QueryParricide($data, $input, $form);
 						if(!is_null($parrice))
 							$args['meta_query'][] = array(
-								'key'     => $imput['key'],
+								'key'     => $input['key'],
 								'value'   => $parrice,
 								'compare' => 'IN',
 								// 'type'    => 'string',
