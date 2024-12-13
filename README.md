@@ -83,8 +83,8 @@ Coming soon...
 Coming soon...
 
 ## TODO [internal] ##
-* -Composer integration for dependencies-
-* -PSR4 class loader-
+* ~Composer integration for dependencies~
+* ~PSR4 class loader~
 * NPM integration for JS dependencies...?
 * Migrate plugin deployment to GitHub Actions
 * Proper range filter support
