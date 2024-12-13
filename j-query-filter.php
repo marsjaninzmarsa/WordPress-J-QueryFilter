@@ -9,6 +9,8 @@ Version: 0.0.2
 License: GPL v3
 */
 
+use Marsjaninzmarsa\WordpressQueryFilter\UiJQueryFilter;
+
 if(!defined('J_QUERY_FILTER_V'))
 	define('J_QUERY_FILTER_V', '0.0.1');
 
@@ -18,20 +20,11 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 } else {
 	wp_die( 'Please run <code>composer install</code>', 'Composer not loaded' );
 }
-// if(!extension_loaded('yaml') && !class_exists('Spyc')) {
-// 	require_once "spyc/spyc.php";
-// }
-
-spl_autoload_register(function($class) { // TODO: rewrite to PSR
-	if(is_file($file = dirname(__FILE__) . "/inc/$class.php")) {
-		include_once $file;
-	}
-});
 
 
 // Registering Widget
 add_action('widgets_init', function() {
-	return register_widget("JQueryFilterWidget");
+	return register_widget('Marsjaninzmarsa\WordpressQueryFilter\JQueryFilterWidget');
 });
 
 add_action('wp_register_sidebar_widget', function($widget) {
@@ -45,9 +38,6 @@ add_action('wp_register_sidebar_widget', function($widget) {
 		$sidebarQueryFilter = new UiJQueryFilter($settings);
 	}
 });
-
-
-// $sidebarQueryFilter->form = UiJQueryFilter::LoadYaml(dirname(__FILE__) . '/form.yaml');
 
 add_action( 'wp_enqueue_scripts', 'enqueue_and_register_j_query_filter' );
 add_action( 'wp_ajax_nopriv_sidebar_query_filter', 'j_query_filter' );

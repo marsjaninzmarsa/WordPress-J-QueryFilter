@@ -1,6 +1,7 @@
 <?php
+namespace Marsjaninzmarsa\WordPressQueryFilter;
 
-class JQueryFilterWidget extends WP_Widget {
+class JQueryFilterWidget extends \WP_Widget {
 function __construct() {
 	parent::__construct(
 		'j_query_filter_widget', // Base ID

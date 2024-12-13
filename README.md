@@ -70,6 +70,7 @@ Coming soon...
 * Bugfix: Fixed widget initialization on default params
 * Bugfix: Properly initialize filters for main loop on standard posts listing
 * Internal: Composer integration for dependencies
+* Internal: PSR-4 class loader
 
 #### 0.0.2 ####
 * Fixes compatibility issue with PHP 5.3 versions.
@@ -83,7 +84,7 @@ Coming soon...
 
 ## TODO [internal] ##
 * -Composer integration for dependencies-
-* PSR4 class loader
+* -PSR4 class loader-
 * NPM integration for JS dependencies...?
 * Migrate plugin deployment to GitHub Actions
 * Proper range filter support

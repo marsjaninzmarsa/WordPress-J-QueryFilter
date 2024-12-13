@@ -1,4 +1,5 @@
 <?php
+namespace Marsjaninzmarsa\WordPressQueryFilter;
 
 class UiJQueryFilter {
 
