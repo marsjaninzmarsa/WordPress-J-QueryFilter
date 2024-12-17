@@ -89,6 +89,17 @@ function enqueue_and_register_j_query_filter(){
 	}
 }
 
+add_action('pre_get_posts', function($query) {
+	if($query->is_main_query() && ($query->is_post_type_archive() || $query->is_home()) && in_array($pt = ($query->query_vars['post_type'] ?: 'post'), UiJQueryFilter::GetFilteredPT())) {
+		$sidebarQueryFilter = UiJQueryFilter::GetFilterForPT($pt);
+		$args = array(
+			// 'post_type' => $pt,
+		);
+		$query->parse_query(array_merge($query->query, $sidebarQueryFilter->FilterQuery($_GET, $args)));
+	}
+	return;
+});
+
 function j_query_filter_query($data) {
 	global $sidebarQueryFilter, $wp_query;
 	if (!empty($data)) {
@@ -100,7 +111,7 @@ function j_query_filter_query($data) {
 			'post_status' => (in_array('administrator', wp_get_current_user()->roles)) ? 'any' : 'publish',
 		);
 
-		$args = $sidebarQueryFilter->QueryFilter($data, $args);
+		$args = $sidebarQueryFilter->FilterQuery($data, $args);
 
 		$wp_query = new WP_Query($args);
 		$wp_query->has_results = true;
@@ -133,14 +144,3 @@ function j_query_filter($args = false) {
 	}
 	if (defined('DOING_AJAX') && DOING_AJAX) exit;
 }
-
-add_action('pre_get_posts', function($query) {
-	if($query->is_main_query() && ($query->is_post_type_archive() || $query->is_home()) && in_array($pt = ($query->query_vars['post_type'] ?: 'post'), UiJQueryFilter::GetFilteredPT())) {
-		$sidebarQueryFilter = UiJQueryFilter::GetFilterForPT($pt);
-		$args = array(
-			// 'post_type' => $pt,
-		);
-		$query->parse_query(array_merge($query->query, $sidebarQueryFilter->QueryFilter($_GET, $args)));
-	}
-	return;
-});

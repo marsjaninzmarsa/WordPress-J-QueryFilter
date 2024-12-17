@@ -192,7 +192,7 @@ private function QueryParricide($data, $input, $form) {
 	}
 }
 
-public function QueryFilter($data, $args) {
+public function FilterQuery($data, $args) {
 	$args = array_merge(array(
 		'tax_query'  => array(),
 		'meta_query' => array(),
@@ -231,10 +231,10 @@ public function QueryFilter($data, $args) {
 			// print('<pre>'); var_dump($input); print('</pre>');
 				switch ($input['type']) {
 					case 'range':
-						if(strlen($data[$input['min_name']])>0 || !empty($data[$input['max_name']])) {
+						if( strlen( $data[$input['min_name']] ) > 0 || ! empty( $data[$input['max_name'] ] ) ) {
 							$range = array(
-								($data[$input['min_name']]) ? $data[$input['min_name']] : $input['min'],
-								($data[$input['max_name']]) ? $data[$input['max_name']] : $input['max']
+								( $data[$input['min_name']] ) ? $data[$input['min_name']] : $input['min'],
+								( $data[$input['max_name']] ) ? $data[$input['max_name']] : $input['max']
 							);
 							if($input['overflow_max'] && $range[1] >= $input['max']) {
 								$args['meta_query'][] = array(

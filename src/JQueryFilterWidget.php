@@ -24,7 +24,7 @@ protected $form = array (
 		'default' => '',
 		'type' => 'select',
 		'params_callback' => array(
-			'static::getPostTypes',
+			'static::getPostTypesForFiltering',
 		),
 	),
 	// array (
@@ -300,7 +300,7 @@ public function update( $new_instance, $old_instance ) {
 	return $instance;
 }
 
-public static function getPostTypes() {
+public static function getPostTypesForFiltering() {
 	$post_types = get_post_types(array(
 		'public' => true,
 		'publicly_queryable' => true,
